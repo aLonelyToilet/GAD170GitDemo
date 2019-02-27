@@ -18,18 +18,26 @@ public static class BattleHandler
         //This needs to be replaced with some actual battle logic, at present 
         // we just award the maximum possible win to the player
         float outcome = 1;
-
-        // YOUR CODE GOES HERE
-
-        Debug.Log(data.npc.luck);
-        Debug.Log(data.npc.style);
-        Debug.Log(data.npc.rhythm);
-
-        Debug.Log(data.player.luck);
         Debug.Log(data.player.style);
         Debug.Log(data.player.rhythm);
+        Debug.Log(data.player.luck);
+
+        int playerstats = (data.player.rhythm + data.player.style) + (Random.Range(1, data.player.luck));
+        int npcstats = (data.npc.rhythm + data.npc.style) + (Random.Range(1, data.player.luck));
+
+        if (playerstats > npcstats)
+        {
+            outcome = 1;
+        }
+
+        else if (playerstats < npcstats)
+        {
+            outcome = 0;
+        }
+
+
         var results = new BattleResultEventData(data.player, data.npc, outcome);
 
-        GameEvents.FinishedBattle(results);
+        GameEvents.FinishedBattle(results); 
     }
 }

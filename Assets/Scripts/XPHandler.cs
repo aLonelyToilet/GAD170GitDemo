@@ -15,21 +15,49 @@ using UnityEngine;
 /// </summary>
 public class XPHandler : MonoBehaviour
 {
+    int xpRequired = 50;
+
     private void OnEnable()
     {
-        GameEvents.OnBattleConclude -= GainXP;
+        GameEvents.OnBattleConclude += GainXP;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnBattleConclude += GainXP;
+        GameEvents.OnBattleConclude -= GainXP;
     }
 
     public void GainXP(BattleResultEventData data)
     {
         Debug.Log(data.outcome);
+
+        Debug.Log(data.player.level);
+        Debug.Log(data.player.xp);
+
+        //checking if player won and then assigning xp
+        if (data.outcome == 1)
+        {
+            data.player.xp += 10;
+        }
+
+        else
+        {
+            data.player.xp += 2;
+        }
+
+        if (data.player.xp >= xpRequired)
+        {
+            data.player.level++;
+            Debug.Log("Level is now: " + data.player.level);
+            int pointsToAdd = 10;
+            StatsGenerator.AssignUnusedPoints(data.player, pointsToAdd);
+            GameEvents.PlayerLevelUp(data.player.level);
+            xpRequired += (xpRequired * (data.player.level / 2));
+            Debug.Log(xpRequired);
+        }
+
         // if data.outcome is 1 then player won, otherwise player lost
 
-
+         
     }
 }

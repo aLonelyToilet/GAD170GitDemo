@@ -14,9 +14,27 @@ public static class StatsGenerator
 {
     public static void InitialStats(Stats stats)
     {
+        stats.level = 1;
+        stats.xp = 0;
+
+        stats.style = (Random.Range(1, 6));
+        stats.rhythm = (Random.Range(1, 6));
+        stats.luck = (Random.Range(1, 10));
+
     }
 
-    public static void AssignUnusedPoints(Stats stats, int points)
+    public static void AssignUnusedPoints(Stats stats, int pointsToAdd)
     {
+        int rVal = pointsToAdd - (Random.Range(6, 7));
+        int sVal = pointsToAdd - (Random.Range(6, 7));
+        int lVal = pointsToAdd - (Random.Range(7, 10));
+
+        stats.rhythm += rVal;
+        stats.style += sVal;
+        stats.luck += lVal;
+
+        Debug.Log(stats.rhythm);
+        Debug.Log(stats.style);
+        Debug.Log(stats.luck); 
     }
 }
